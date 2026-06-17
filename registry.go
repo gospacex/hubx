@@ -76,6 +76,14 @@ func GetTyped[T Client](providerName, instanceName string) (T, error) {
 // and stop calling SetConfigLoader. SetConfigLoader will be removed in a
 // future major release; the method is retained as a thin shim during the
 // migration window.
+//
+// @Deprecated: SetConfigLoader is the only public way to install a
+// hubx.ConfigLoader; it is being replaced by the typed registry pattern
+// above. See the @Deprecated notice on the ConfigLoader interface itself
+// (hubx/config.go) for the full migration rationale.
+//
+// @Deprecated: Callers MUST migrate to hubx.Register(configx.NewProvider(...))
+// + hubx.GetTyped[configx.Loader](...) before the next major release.
 func SetConfigLoader(loader ConfigLoader) {
 	r := Registry()
 	r.mu.Lock()
